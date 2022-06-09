@@ -21,6 +21,17 @@ export class GameComponent implements OnInit {
     information!.innerHTML = currentPlayer;
   }
 
+  resetGame(): void{
+    this.game.gameStart();
+    const currentPlayer = 'Current turn: Player: ' + this.game.currentTurn;
+    const information = document.querySelector('.current-status');
+    information!.innerHTML = currentPlayer;
+    const boxes = document.querySelectorAll('.reset');
+    boxes.forEach(box => {
+      box.classList.remove('reset', 'player1','player2',);
+    });
+  }
+
   async clickSubField( subfield: any ): Promise<void> {
     if (this.game.gameStatus === 1){
       const position = subfield.currentTarget.getAttribute('position')
@@ -29,6 +40,7 @@ export class GameComponent implements OnInit {
       this.game.setField(position, this.game.currentTurn);
       const color = this.game.getPlayerColorClass();
       subfield.currentTarget.classList.add(color);
+      subfield.currentTarget.classList.add('reset');
 
       await this.game.checkForWinner().then( (end: boolean) =>{
         if ( this.game.gameStatus === 2 && end ){
