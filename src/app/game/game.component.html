@@ -7,8 +7,11 @@
     <div *ngIf="this.game.gameStatus === 0" class="field d-flex justify-content-center" style="width:100%">
         <button (click)="startGame()" mat-raised-button color="accent" class="start-game-button">Start Game</button>
     </div>
+    <div *ngIf="this.game.gameStatus === 2" class="field d-flex justify-content-center" style="width:100%">
+        <button (click)="startGame()" mat-raised-button color="accent" class="start-game-button">Play Again?</button>
+    </div>  
 
-    <div *ngIf="this.game.gameStatus === 1" class="gameboard">
+    <div *ngIf="this.game.gameStatus !== 0" class="gameboard">
         <div class="players player1 align-self-center">
             <p class="mat-body-1" style="font-weight: 700; margin: 0 0 10px 10px;">Player 1</p>
         </div>

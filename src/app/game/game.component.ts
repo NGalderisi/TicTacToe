@@ -31,13 +31,13 @@ export class GameComponent implements OnInit {
       subfield.currentTarget.classList.add(color);
 
       await this.game.checkForWinner().then( (end: boolean) =>{
-        if ( this.game.gameStatus === 0 && end ){
+        if ( this.game.gameStatus === 2 && end ){
           information!.innerHTML = 'The Winner is Player ' + this.game.currentTurn;
         }
       });
 
       await this.game.checkForFull().then( (end: boolean) =>{
-        if ( this.game.gameStatus === 0 && end ){
+        if ( this.game.gameStatus === 2 && end ){
           information!.innerHTML = 'Draw'
         }
       });
