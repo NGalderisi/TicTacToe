@@ -37,28 +37,31 @@ export class GameComponent implements OnInit {
       const position = subfield.currentTarget.getAttribute('position')
       const information = document.querySelector('.current-status');
 
-      this.game.setField(position, this.game.currentTurn);
-      const color = this.game.getPlayerColorClass();
-      subfield.currentTarget.classList.add(color);
-      subfield.currentTarget.classList.add('reset');
+      if(this.game.gameField[position] === 0){
 
-      await this.game.checkForWinner().then( (end: boolean) =>{
-        if ( this.game.gameStatus === 2 && end ){
-          information!.innerHTML = 'The Winner is Player ' + this.game.currentTurn;
+        this.game.setField(position, this.game.currentTurn);
+        const color = this.game.getPlayerColorClass();
+        subfield.currentTarget.classList.add(color);
+        subfield.currentTarget.classList.add('reset');
+
+        await this.game.checkForWinner().then( (end: boolean) =>{
+          if ( this.game.gameStatus === 2 && end ){
+            information!.innerHTML = 'The Winner is Player ' + this.game.currentTurn;
+          }
+        });
+
+        await this.game.checkForFull().then( (end: boolean) =>{
+          if ( this.game.gameStatus === 2 && end ){
+            information!.innerHTML = 'Draw'
+          }
+        });
+
+        this.game.changePlayer();
+
+        if(this.game.gameStatus === 1) {
+          const currentPlayer = 'Current turn: Player: ' + this.game.currentTurn;
+          information!.innerHTML = currentPlayer;
         }
-      });
-
-      await this.game.checkForFull().then( (end: boolean) =>{
-        if ( this.game.gameStatus === 2 && end ){
-          information!.innerHTML = 'Draw'
-        }
-      });
-
-      this.game.changePlayer();
-
-      if(this.game.gameStatus === 1) {
-        const currentPlayer = 'Current turn: Player: ' + this.game.currentTurn;
-        information!.innerHTML = currentPlayer;
       }
     }
   }
