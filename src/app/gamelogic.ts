@@ -8,26 +8,15 @@ export class Gamelogic {
 
     gameStatus: Status;
 
-    winSituationsOne: Array<Array<number>> = [
-        [1,1,1,0,0,0,0,0,0],
-        [0,0,0,1,1,1,0,0,0],
-        [0,0,0,0,0,0,1,1,1],
-        [1,0,0,1,0,0,1,0,0],
-        [0,1,0,0,1,0,0,1,0],
-        [0,0,1,0,0,1,0,0,1],
-        [1,0,0,0,1,0,0,0,1],
-        [0,0,1,0,1,0,1,0,0]
-    ]
-
-    winSituationsTwo: Array<Array<number>> = [
-        [2,2,2,0,0,0,0,0,0],
-        [0,0,0,2,2,2,0,0,0],
-        [0,0,0,0,0,0,2,2,2],
-        [2,0,0,2,0,0,2,0,0],
-        [0,2,0,0,2,0,0,2,0],
-        [0,0,2,0,0,2,0,0,2],
-        [2,0,0,0,2,0,0,0,2],
-        [0,0,2,0,2,0,2,0,0]
+    winSituations: Array<Array<number>> = [
+        [0,1,2],
+        [3,4,5],
+        [6,7,8],
+        [0,3,6],
+        [1,4,7],
+        [2,5,8],
+        [0,4,8],
+        [2,4,6]
     ]
 
     public constructor() {
@@ -72,35 +61,31 @@ export class Gamelogic {
         return isFull;
     }
 
-    arrayEquals(a: Array<any>, b: Array<any>): boolean{
-        return Array.isArray(a) && Array.isArray(b) && a.length === b.length && a.every ( (value, index) => value === b[index]);
-
-    }
-
     async checkForWinner(): Promise<boolean> {
         let isWinner = false;
-
-        const checkArray = (this.currentTurn === 1)? this.winSituationsOne :this.winSituationsTwo;
-
-        const currentarray: any[] = [];
+        const currentArray: any[] = [];
 
         this.gameField.forEach( (subField,index) =>{
             if ( subField !== this.currentTurn) {
-                currentarray[index] = 0;
+                currentArray[index] = 0;
             } else {
-                currentarray[index] = subField;
+                currentArray[index] = subField;
             }
         });
 
-        checkArray.forEach((checkField, checkIndex) =>{
-            if(this.arrayEquals(checkField,currentarray)){
+        this.winSituations.forEach((situation) =>  {
+            if(!isWinner &&  
+                this.gameField[situation[0]] == this.currentTurn && 
+                this.gameField[situation[0]] == this.gameField[situation[1]] && 
+                this.gameField[situation[1]] == this.gameField[situation[2]])
+                {
                 isWinner = true;
                 this.gameEnd();
             }
         })
         return isWinner;
     }
-
+    
     gameEnd(): void {
         this.gameStatus=Status.GAMEOVER;
     }
