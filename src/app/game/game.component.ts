@@ -22,7 +22,7 @@ export class GameComponent implements OnInit {
   }
 
   resetGame(): void{
-    this.game.gameStart();
+    this.game.gameReset();
     const currentPlayer = 'Current turn: Player: ' + this.game.currentTurn;
     const information = document.querySelector('.current-status');
     information!.innerHTML = currentPlayer;
@@ -53,6 +53,13 @@ export class GameComponent implements OnInit {
         await this.game.checkForWinner().then( (end: boolean) =>{
           if ( this.game.gameStatus === 2 && end ){
             information!.innerHTML = 'The Winner is Player ' + this.game.currentTurn;
+            const winnerScore = document.querySelector('.score' + this.game.currentTurn);
+            if(this.game.currentTurn == 1){
+              winnerScore!.innerHTML = 'Score: ' + this.game.playerOneScore;
+            } else {
+              winnerScore!.innerHTML = 'Score: ' + this.game.playerTwoScore;
+            }
+            
           }
         });
 

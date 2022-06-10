@@ -8,6 +8,10 @@ export class Gamelogic {
 
     gameStatus: Status;
 
+    playerOneScore!: number;
+
+    playerTwoScore!: number;
+
     winSituations: Array<Array<number>> = [
         [0,1,2],
         [3,4,5],
@@ -25,6 +29,14 @@ export class Gamelogic {
     }
 
     gameStart(): void {
+        this.gameField= [0,0,0,0,0,0,0,0,0]
+        this.currentTurn = this.randomPlayerStart();
+        this.playerOneScore = 0;
+        this.playerTwoScore = 0;
+        this.gameStatus= Status.START;
+    }
+
+    gameReset(): void {
         this.gameField= [0,0,0,0,0,0,0,0,0]
         this.currentTurn = this.randomPlayerStart();
         this.gameStatus= Status.START;
@@ -83,6 +95,14 @@ export class Gamelogic {
                 this.gameEnd();
             }
         })
+
+        if(isWinner){
+            var player = (this.currentTurn === 1)? 1 : 2;
+            if (player == 1) {
+                this.playerOneScore++;
+            } else { 
+                this.playerTwoScore++; }
+        }
         return isWinner;
     }
     
