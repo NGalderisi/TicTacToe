@@ -3,8 +3,12 @@
     <div class="field d-flex justify-content-center">
         <p class="current-status mat-display-1" style="color:#fff">Click the button to start</p>
     </div>
-
-    <div *ngIf="this.game.gameStatus === 0" class="field d-flex justify-content-center" style="width:100%">
+    <div *ngIf="this.game.gameStatus === 0" class="field d-flex justify-content-center difficulty-buttons" style="width:100%; margin-bottom: 25px;">
+        <button (click)="setDifficultyEasy()" mat-raised-button color="accent" class="easy-button button">Easy</button>
+        <button (click)="setDifficultyNormal()" mat-raised-button color="accent" class="normal-button button">Normal</button>
+        <button (click)="setDifficultyImpossible()" mat-raised-button color="accent" class="impossible-button button">Impossible</button>
+    </div>
+    <div *ngIf="this.game.gameStatus === 0" class="field d-flex justify-content-center" style="width:100%;">
         <button (click)="startGame()" mat-raised-button color="accent" class="start-game-button">Start Game</button>
     </div>
     <div *ngIf="this.game.gameStatus !== 0" class="field d-flex justify-content-center" style="width:100%">
@@ -18,19 +22,19 @@
         </div>
         <div class="gamefield container-fluid">
             <div class="row">
-                <div (click) = "clickSubField($event)" position = "0" class="subfield col-4"></div>
-                <div (click) = "clickSubField($event)" position = "1" class="subfield col-4"></div>
-                <div (click) = "clickSubField($event)" position = "2" class="subfield col-4"></div>
+                <div (click) = "clickSubField($event)" position = "0" id = "0" class="subfield col-4"></div>
+                <div (click) = "clickSubField($event)" position = "1" id = "1" class="subfield col-4"></div>
+                <div (click) = "clickSubField($event)" position = "2" id = "2" class="subfield col-4"></div>
             </div>
             <div class="row">
-                <div (click) = "clickSubField($event)" position = "3" class="subfield col-4"></div>
-                <div (click) = "clickSubField($event)" position = "4" class="subfield col-4"></div>
-                <div (click) = "clickSubField($event)" position = "5" class="subfield col-4"></div>
+                <div (click) = "clickSubField($event)" position = "3" id = "3" class="subfield col-4"></div>
+                <div (click) = "clickSubField($event)" position = "4" id = "4" class="subfield col-4"></div>
+                <div (click) = "clickSubField($event)" position = "5" id = "5" class="subfield col-4"></div>
             </div>
             <div class="row">
-                <div (click) = "clickSubField($event)" position = "6" class="subfield col-4"></div>
-                <div (click) = "clickSubField($event)" position = "7" class="subfield col-4"></div>
-                <div (click) = "clickSubField($event)" position = "8" class="subfield col-4"></div>
+                <div (click) = "clickSubField($event)" position = "6" id = "6" class="subfield col-4"></div>
+                <div (click) = "clickSubField($event)" position = "7" id = "7" class="subfield col-4"></div>
+                <div (click) = "clickSubField($event)" position = "8" id = "8" class="subfield col-4"></div>
             </div>
         </div>
 

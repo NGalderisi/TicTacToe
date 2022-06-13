@@ -14,6 +14,16 @@ export class GameComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  setDifficultyEasy(): void{
+    this.game.difficultySetEasy();
+  }
+  setDifficultyNormal(): void{
+    this.game.difficultySetNormal();
+  }
+  setDifficultyImpossible(): void{
+    this.game.difficultySetImpossible();
+  }
+
   startGame(): void{
     this.game.gameStart();
     const currentPlayer = 'Current turn: Player: ' + this.game.currentTurn;
@@ -34,41 +44,9 @@ export class GameComponent implements OnInit {
 
   async clickSubField( subfield: any ): Promise<void> {
     if (this.game.gameStatus === 1){
-      const position = subfield.currentTarget.getAttribute('position')
-      const information = document.querySelector('.current-status');
-
-      if(this.game.gameField[position] === 0){
-
-        this.game.setField(position, this.game.currentTurn);
-        const color = this.game.getPlayerColorClass();
-        subfield.currentTarget.classList.add(color);
-        subfield.currentTarget.classList.add('reset');
-
-        await this.game.checkForFull().then( (end: boolean) =>{
-          if ( this.game.gameStatus === 2 && end ){
-            information!.innerHTML = 'Draw'
-          }
-        });
-
-        await this.game.checkForWinner().then( (end: boolean) =>{
-          if ( this.game.gameStatus === 2 && end ){
-            information!.innerHTML = 'The Winner is Player ' + this.game.currentTurn;
-            const winnerScore = document.querySelector('.score' + this.game.currentTurn);
-            if(this.game.currentTurn == 1){
-              winnerScore!.innerHTML = 'Score: ' + this.game.playerOneScore;
-            } else {
-              winnerScore!.innerHTML = 'Score: ' + this.game.playerTwoScore;
-            }
-            
-          }
-        });
-
-        this.game.changePlayer();
-
-        if(this.game.gameStatus === 1) {
-          const currentPlayer = 'Current turn: Player: ' + this.game.currentTurn;
-          information!.innerHTML = currentPlayer;
-        }
+     this.game.makeMove(subfield)
+      if (this.game.gameDifficulty !== 0 && this.game.gameStatus === 1){
+        this.game.easyComputer();
       }
     }
   }
