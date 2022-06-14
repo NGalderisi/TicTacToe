@@ -45,9 +45,16 @@ export class GameComponent implements OnInit {
   async clickSubField( subfield: any ): Promise<void> {
     if (this.game.gameStatus === 1){
      this.game.makeMove(subfield)
-      if (this.game.gameDifficulty !== 0 && this.game.gameStatus === 1){
-        this.game.easyComputer();
-      }
+    }
+    
+    if (this.game.gameDifficulty === 1 && this.game.gameStatus === 1){
+      this.game.easyComputer();
+    }
+    if (this.game.gameDifficulty === 2 && this.game.gameStatus === 1){
+      this.game.normalComputer();
+    }
+    if (this.game.gameDifficulty === 3 && this.game.gameStatus === 1){
+      this.game.impossibleComputer();
     }
   }
 

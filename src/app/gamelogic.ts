@@ -137,6 +137,33 @@ export class Gamelogic {
         this.makeComputerMove(computerPosition)
     }
 
+    impossibleComputer(): void{
+        var computerPosition = 0;
+        let holder = true;{
+            while (holder == true){
+                var position = Math.floor(Math.random() * 9);
+                let positions = [0,1,2,3,4,5,6,7,8];
+                computerPosition = positions[position];
+                if(this.gameField[position] === 0){
+                    holder = false;
+                }
+            }
+        }
+        this.makeComputerMove(computerPosition)
+    }
+
+    normalComputer(): void{
+        var position = Math.floor(Math.random() * 2);
+        if(position === 0){
+            console.log('easy')
+            this.easyComputer();
+        }else if(position === 1){
+            console.log('impossible')
+            this.impossibleComputer();
+        }else console.log('failure')
+    }
+        
+
     async makeComputerMove(computerPosition:any): Promise<void> {
         await this.delay(500);
         var computerPositionId = computerPosition.toString();
