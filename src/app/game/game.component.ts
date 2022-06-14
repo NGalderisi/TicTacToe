@@ -43,18 +43,23 @@ export class GameComponent implements OnInit {
   }
 
   async clickSubField( subfield: any ): Promise<void> {
-    if (this.game.gameStatus === 1){
-     this.game.makeMove(subfield)
-    }
-    
-    if (this.game.gameDifficulty === 1 && this.game.gameStatus === 1){
-      this.game.easyComputer();
-    }
-    if (this.game.gameDifficulty === 2 && this.game.gameStatus === 1){
-      this.game.normalComputer();
-    }
-    if (this.game.gameDifficulty === 3 && this.game.gameStatus === 1){
-      this.game.impossibleComputer();
+    const position = subfield.currentTarget.getAttribute('position')
+    const subfieldElement = document.getElementById(position);
+    const information = document.querySelector('.current-status');
+    if(this.game.gameField[position] === 0){
+      if (this.game.gameStatus === 1){
+        this.game.makeMove(position,information, subfieldElement)
+      }
+
+      if (this.game.gameDifficulty === 1 && this.game.gameStatus === 1){
+        this.game.easyComputer();
+      }
+      else if (this.game.gameDifficulty === 2 && this.game.gameStatus === 1){
+        this.game.normalComputer();
+      }
+      else if (this.game.gameDifficulty === 3 && this.game.gameStatus === 1){
+        this.game.impossibleComputer();
+      }
     }
   }
 

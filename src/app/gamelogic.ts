@@ -70,8 +70,11 @@ export class Gamelogic {
         return startPlayer;
     }
 
-    setField(position: number, value: number): void {
+    setField(position: number, value: number, subfieldElement: any): void {
         this.gameField[position] = value;
+        const color = this.getPlayerColorClass();
+        subfieldElement!.classList.add(color);
+        subfieldElement!.classList.add('reset');
     }
 
     getPlayerColorClass(): string {
@@ -83,34 +86,13 @@ export class Gamelogic {
         this.currentTurn = (this.currentTurn === 2)? 1 : 2;
     }
 
-    async makeMove(subfield: any,): Promise<void> {
-        const position = subfield.currentTarget.getAttribute('position')
-        const information = document.querySelector('.current-status');
-      if(this.gameField[position] === 0){
+    makeMove(position: any, information: any, subfieldElement: any): void {
+        
+        this.setField(position, this.currentTurn, subfieldElement);
   
-        this.setField(position, this.currentTurn);
-        const color = this.getPlayerColorClass();
-        subfield.currentTarget.classList.add(color);
-        subfield.currentTarget.classList.add('reset');
-  
-        await this.checkForFull().then( (end: boolean) =>{
-          if ( this.gameStatus === 2 && end ){
-            information!.innerHTML = 'Draw'
-          }
-        });
-  
-        await this.checkForWinner().then( (end: boolean) =>{
-          if ( this.gameStatus === 2 && end ){
-            information!.innerHTML = 'The Winner is Player ' + this.currentTurn;
-            const winnerScore = document.querySelector('.score' + this.currentTurn);
-            if(this.currentTurn == 1){
-              winnerScore!.innerHTML = 'Score: ' + this.playerOneScore;
-            } else {
-              winnerScore!.innerHTML = 'Score: ' + this.playerTwoScore;
-            }
-            
-          }
-        });
+        this.checkForDraw(information)
+
+        this.checkForWinner(information)
   
         this.changePlayer();
   
@@ -118,7 +100,6 @@ export class Gamelogic {
           const currentPlayer = 'Current turn: Player: ' + this.currentTurn;
           information!.innerHTML = currentPlayer;
         }
-      }
   
     }
 
@@ -164,46 +145,31 @@ export class Gamelogic {
     }
         
 
-    async makeComputerMove(computerPosition:any): Promise<void> {
-        await this.delay(500);
-        var computerPositionId = computerPosition.toString();
-        const computerMove = document.getElementById(computerPositionId)
-        const information = document.querySelector('.current-status');
-        if(this.gameField[computerPosition] === 0){
+    makeComputerMove(computerPosition:number): void {
+        (async () => { 
+            await this.delay(500);
+            var computerPositionId = computerPosition.toString();
+            const computerMove = document.getElementById(computerPositionId)
+            const information = document.querySelector('.current-status');
+            if(this.gameField[computerPosition] === 0){
 
-            this.setField(computerPosition, this.currentTurn);
-            const color = this.getPlayerColorClass();
-            computerMove!.classList.add(color);
-            computerMove!.classList.add('reset');
+                this.setField(computerPosition, this.currentTurn, computerMove);
+                
+                this.checkForDraw(information)
+                
+                this.checkForWinner(information)
             
-            await this.checkForFull().then( (end: boolean) =>{
-                if ( this.gameStatus === 2 && end ){
-                    information!.innerHTML = 'Draw'
+                this.changePlayer();
+            
+                if(this.gameStatus === 1) {
+                const currentPlayer = 'Current turn: Player: ' + this.currentTurn;
+                information!.innerHTML = currentPlayer;
                 }
-            });
-        
-            await this.checkForWinner().then( (end: boolean) =>{
-                if ( this.gameStatus === 2 && end ){
-                    information!.innerHTML = 'The Winner is Player ' + this.currentTurn;
-                    const winnerScore = document.querySelector('.score' + this.currentTurn);
-                    if(this.currentTurn == 1){
-                        winnerScore!.innerHTML = 'Score: ' + this.playerOneScore;
-                    } else {
-                        winnerScore!.innerHTML = 'Score: ' + this.playerTwoScore;
-                    }
-                }
-            });
-        
-            this.changePlayer();
-        
-            if(this.gameStatus === 1) {
-            const currentPlayer = 'Current turn: Player: ' + this.currentTurn;
-            information!.innerHTML = currentPlayer;
             }
-        }
+        })();
     }
 
-    async checkForFull(): Promise<boolean> {
+    checkForDraw(information: any): boolean {
         let isFull = true;
 
         if (this.gameField.includes(0) ) {
@@ -212,11 +178,14 @@ export class Gamelogic {
         else{
             this.gameEnd();
         }
+        if ( this.gameStatus === 2 ){
+            information!.innerHTML = 'Draw'
+        }
 
         return isFull;
     }
 
-    async checkForWinner(): Promise<boolean> {
+    checkForWinner(information: any): boolean {
         let isWinner = false;
         const currentArray: any[] = [];
 
@@ -246,10 +215,81 @@ export class Gamelogic {
             } else { 
                 this.playerTwoScore++; }
         }
+        if ( this.gameStatus === 2){
+            information!.innerHTML = 'The Winner is Player ' + this.currentTurn;
+            const winnerScore = document.querySelector('.score' + this.currentTurn);
+            if(this.currentTurn == 1){
+                winnerScore!.innerHTML = 'Score: ' + this.playerOneScore;
+            } else {
+                winnerScore!.innerHTML = 'Score: ' + this.playerTwoScore;
+            }
+        }
         return isWinner;
     }
     
     gameEnd(): void {
         this.gameStatus=Status.GAMEOVER;
     }
+
+    // var MiniMax = /** @class */ (function () {
+    //     function MiniMax() {
+    //         this.bestMove = 0;
+    //         this.MAX_DEPTH = 6;
+    //     }
+    //     MiniMax.prototype.buildTree = function (board, player, cb) {
+    //         this.bestMove = 0;
+    //         this.recursiveBuildTree(board, player, 0);
+    //         cb(this.bestMove);
+    //     };
+    //     MiniMax.prototype.recursiveBuildTree = function (board, currPlayer, depth) {
+    //         if (depth > this.MAX_DEPTH) {
+    //             return 0;
+    //         }
+    //         // set the other player for the next game state and check for loss
+    //         var otherPlayer = currPlayer === pX ? pO : pX;
+    //         // check to see if someone has won in the current boardstate
+    //         var winner = board.getWinner();
+    //         if (winner === currPlayer) {
+    //             return 1;
+    //         }
+    //         else if (winner === otherPlayer) {
+    //             return -1;
+    //         }
+    //         // check for a full board, if so the game is a draw
+    //         if (board.isFull()) {
+    //             return 0;
+    //         }
+    //         // now we start to rank moves
+    //         var alpha = -1;
+    //         var saList = new Array();
+    //         var moveList = board.getAvailableMoves();
+    //         for (var _i = 0, moveList_1 = moveList; _i < moveList_1.length; _i++) {
+    //             var m_1 = moveList_1[_i];
+    //             // copy current gamestate
+    //             var boardCopy = board.copy();
+    //             // make a branch for each possible move
+    //             boardCopy.move(currPlayer, m_1);
+    //             // pass the new game state into recursion
+    //             var subalpha = -this.recursiveBuildTree(boardCopy, otherPlayer, depth + 1);
+    //             // if this move is better than alpha increase alpha
+    //             if (alpha < subalpha)
+    //                 alpha = subalpha;
+    //             // push subalpha to the list only if we're looking at a 'real' game state
+    //             if (depth === 0)
+    //                 saList.push(subalpha);
+    //         }
+    //         if (depth === 0) {
+    //             var posMoves = new Array();
+    //             for (var j = 0; j < saList.length; ++j) {
+    //                 if (saList[j] === alpha) {
+    //                     posMoves.push(moveList[j]);
+    //                 }
+    //             }
+    //             // pick a random best move
+    //             this.bestMove = posMoves[Math.floor(Math.random() * posMoves.length)];
+    //         }
+    //         return alpha;
+    //     };
+    //     return MiniMax;
+    // }());
 }
