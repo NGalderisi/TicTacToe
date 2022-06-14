@@ -47,7 +47,7 @@ export class GameComponent implements OnInit {
     const position = subfield.currentTarget.getAttribute('position')
     const subfieldElement = document.getElementById(position);
     const information = document.querySelector('.current-status');
-    
+      
     if(this.game.gameField[position] === 0){
       if (this.game.gameStatus === 1){
         this.game.makeMove(position,information, subfieldElement)
