@@ -82,8 +82,12 @@ export class Gamelogic {
         return colorClass;
     }
 
-    changePlayer(): void {
+    changePlayer(information: any,): void {
         this.currentTurn = (this.currentTurn === 2)? 1 : 2;
+        if(this.gameStatus === 1) {
+            const currentPlayer = 'Current turn: Player: ' + this.currentTurn;
+            information!.innerHTML = currentPlayer;
+            }
     }
 
     makeMove(position: any, information: any, subfieldElement: any): void {
@@ -94,13 +98,7 @@ export class Gamelogic {
 
         this.checkForWinner(information)
   
-        this.changePlayer();
-  
-        if(this.gameStatus === 1) {
-          const currentPlayer = 'Current turn: Player: ' + this.currentTurn;
-          information!.innerHTML = currentPlayer;
-        }
-  
+        this.changePlayer(information);
     }
 
     easyComputer(): void{
@@ -159,12 +157,7 @@ export class Gamelogic {
                 
                 this.checkForWinner(information)
             
-                this.changePlayer();
-            
-                if(this.gameStatus === 1) {
-                const currentPlayer = 'Current turn: Player: ' + this.currentTurn;
-                information!.innerHTML = currentPlayer;
-                }
+                this.changePlayer(information);
             }
         })();
     }
