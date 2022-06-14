@@ -101,14 +101,24 @@ export class Gamelogic {
         this.changePlayer(information);
     }
 
+    findAvailablePositions(): Array<number>{
+        let availablePositions = [];
+        for (var i = 0;i < 9; i++){
+            if ( this.gameField[i] === 0){
+                availablePositions.push(i);
+            }
+        }
+        return availablePositions
+    }
+
     easyComputer(): void{
         var computerPosition = 0;
         let holder = true;{
             while (holder == true){
-                var position = Math.floor(Math.random() * 9);
-                let positions = [0,1,2,3,4,5,6,7,8];
-                computerPosition = positions[position];
-                if(this.gameField[position] === 0){
+                let availablePositions = this.findAvailablePositions();
+                var randomPosition = Math.floor(Math.random() * availablePositions.length);
+                computerPosition = availablePositions[randomPosition];
+                if(this.gameField[computerPosition] === 0){
                     holder = false;
                 }
             }
