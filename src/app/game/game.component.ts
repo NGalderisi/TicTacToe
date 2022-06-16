@@ -42,7 +42,7 @@ export class GameComponent implements OnInit {
     });
   }
 
-  async clickSubField( subfield: any ): Promise<void> {
+  clickSubField( subfield: any ): void {
 
     const position = subfield.currentTarget.getAttribute('position')
     const subfieldElement = document.getElementById(position);
@@ -64,6 +64,5 @@ export class GameComponent implements OnInit {
       }
     }
   }
-
 }
 
