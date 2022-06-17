@@ -139,13 +139,14 @@ export class Gamelogic {
         let bestScore = -Infinity;
         let bestMove = availablePositions[0];
         for (var i = 0; i < availablePositions.length; i++){
-            var minimaxGameField  =  this.gameField;
+            var minimaxGameField  =  Object.assign([], this,this.gameField);
             this.setClonedField(availablePositions[i],this.currentTurn, minimaxGameField)
             let score = this.minimax(minimaxGameField, 0, false, this.currentTurn);
             if(score > bestScore){
                 bestScore = score;
                 bestMove = availablePositions[i];
             }
+            this.setClonedField(availablePositions[i],0, minimaxGameField)
         }
         this.gameStatus = Status.START
         this.makeComputerMove(bestMove)
