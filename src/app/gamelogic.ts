@@ -95,6 +95,11 @@ export class Gamelogic {
     }
 
     makeMove(position: any, information: any, subfieldElement: any): void {
+        if (this.currentTurn === 1){
+            this.playSound("../assets/place_sound_effect.wav")
+        } else{
+            this.playSound("../assets/place_sound_effect_2.wav")
+        }
         
         this.setField(position, this.currentTurn, subfieldElement);
   
@@ -206,6 +211,7 @@ export class Gamelogic {
     makeComputerMove(computerPosition:number): void {
         (async () => { 
             await this.delay(500);
+            this.playSound("../assets/place_sound_effect_2.wav")
             var computerPositionId = computerPosition.toString();
             const computerMove = document.getElementById(computerPositionId)
             const information = document.querySelector('.current-status');
@@ -279,7 +285,15 @@ export class Gamelogic {
             } else {
                 winnerScore!.innerHTML = 'Score: ' + this.playerTwoScore;
             }
+            this.playSound("../assets/win_sound_effect.wav")
         }
+    }
+
+    playSound(fileLocation : any) {
+        let winSound = new Audio()
+        winSound.src = fileLocation
+        winSound.load()
+        winSound.play()
     }
     
     gameEnd(): void {
