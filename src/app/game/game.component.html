@@ -1,4 +1,6 @@
 <div class="main-container">
+    <img *ngIf="this.game.gameSound === 0" src="/assets/volume.png" id="soundIcon" class="soundIcon" (click) = "toggleVolume()"/>
+    <img *ngIf="this.game.gameSound === 1" src="/assets/volume-mute.png" id="soundIcon" class="soundIcon" (click) = "toggleVolume()"/>
     <h1 class="mat-display-2" style="font-weight: 900; text-align : center; margin: 15px 0; color: #fff;">Tic Tac Toe</h1>
     <div class="field d-flex justify-content-center">
         <p class="current-status mat-display-1" style="color:#fff">Click the button to start</p>

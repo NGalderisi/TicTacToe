@@ -11,14 +11,23 @@
         .impossible-button{
             margin: 0 10px 0 10px;
         }
-        .menu-button{
-            margin: 0 10px 0 10px;
-        }
         .button{
             min-width: 100px;
             width: 6%;
         }
 
+    }
+    .menu-button{
+        margin: 0 10px 0 10px;
+    }
+    .soundIcon{
+        margin: 0 10px 0 10px;
+        height: 3vw;
+        width: 3vw;
+        position: absolute;
+        top: 5px;
+        right: 5px;
+        cursor: pointer;
     }
     .gameboard{
         margin-top: 30px;

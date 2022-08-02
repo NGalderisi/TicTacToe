@@ -1,5 +1,6 @@
 import {Status} from './gamestatus';
 import {Difficulty} from './computerdifficulty';
+import {Sound} from './sound-toggle';
 
 export class Gamelogic {
 
@@ -10,6 +11,8 @@ export class Gamelogic {
     gameStatus: Status;
 
     gameDifficulty: Difficulty;
+
+    gameSound: Sound;
 
     playerOneScore!: number;
 
@@ -29,6 +32,7 @@ export class Gamelogic {
     public constructor() {
         this.gameDifficulty = Difficulty.NOCOMPUTER;
         this.gameStatus = Status.STOP
+        this.gameSound = Sound.On
         this.gameField= [0,0,0,0,0,0,0,0,0]
     }
 
@@ -290,10 +294,12 @@ export class Gamelogic {
     }
 
     playSound(fileLocation : any) {
-        let winSound = new Audio()
-        winSound.src = fileLocation
-        winSound.load()
-        winSound.play()
+        if (this.gameSound === 0){
+            let winSound = new Audio()
+            winSound.src = fileLocation
+            winSound.load()
+            winSound.play()
+        }
     }
     
     gameEnd(): void {

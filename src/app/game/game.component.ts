@@ -14,6 +14,15 @@ export class GameComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  toggleVolume(): void{
+    if(this.game.gameSound === 0){ this.game.gameSound = 1}
+    else this.game.gameSound = 0;
+  }
+  homeScreen(): void{
+    this.game.gameDifficulty = 0;
+    this.game.gameStatus = 0;
+  }
+
   setDifficultyEasy(): void{
     this.game.difficultySetEasy();
   }
@@ -22,10 +31,6 @@ export class GameComponent implements OnInit {
   }
   setDifficultyImpossible(): void{
     this.game.difficultySetImpossible();
-  }
-  homeScreen(): void{
-    this.game.gameDifficulty = 0;
-    this.game.gameStatus = 0;
   }
 
   startGame(): void{
