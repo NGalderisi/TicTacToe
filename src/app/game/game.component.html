@@ -8,6 +8,9 @@
         <button (click)="setDifficultyNormal()" mat-raised-button color="accent" class="normal-button button">Normal</button>
         <button (click)="setDifficultyImpossible()" mat-raised-button color="accent" class="impossible-button button">Impossible</button>
     </div>
+    <div *ngIf="this.game.gameStatus !== 0" class="field d-flex justify-content-center difficulty-buttons" style="width:100%; margin-bottom: 25px;">
+        <button (click)="homeScreen()" mat-raised-button color="accent" class="menu-button button">Home</button>
+    </div>
     <div *ngIf="this.game.gameStatus === 0" class="field d-flex justify-content-center" style="width:100%;">
         <button (click)="startGame()" mat-raised-button color="accent" class="start-game-button">Start Game</button>
     </div>

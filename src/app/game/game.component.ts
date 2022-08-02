@@ -23,6 +23,9 @@ export class GameComponent implements OnInit {
   setDifficultyImpossible(): void{
     this.game.difficultySetImpossible();
   }
+  homeScreen(): void{
+    window.location.reload();
+  }
 
   startGame(): void{
     this.game.gameStart();
