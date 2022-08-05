@@ -1,6 +1,17 @@
 import { Gamelogic } from './gamelogic';
 
 describe('Gamelogic', () => {
+  // This test currently takes an average of 13-15 seconds to run, I want to try implementing AlphaBeta Pruning to see how much faster I can make this
+  // it('Minimax Test: Depth of 9 with gamefield of [0,0,0,0,0,0,0,0,0] should return 0', () => {
+  //   var gameField: Array<number> = [0,0,0,0,0,0,0,0,0];
+  //   const test = new Gamelogic()
+  //   expect(test.minimax(gameField, 9, false, 1))
+  //   .withContext('Depth of 9 with the board [0,0,0,0,0,0,0,0,0] should always evaulate as a draw (0)')
+  //   .toBe(0)
+  // });
+
+
+
   it('Minimax Test: Depth of 7 with gamefield of [1,2,0,0,0,0,0,0,0] should return -10', () => {
     var gameField: Array<number> = [1,2,0,0,0,0,0,0,0];
     const test = new Gamelogic()
