@@ -150,7 +150,7 @@ export class Gamelogic {
         for (var i = 0; i < availablePositions.length; i++){
             var minimaxGameField  =  Object.assign([], this,this.gameField);
             this.setClonedField(availablePositions[i],this.currentTurn, minimaxGameField)
-            let score = this.minimax(minimaxGameField, 0, 7, false, this.currentTurn);
+            let score = this.minimax(minimaxGameField, 0, 7, -Infinity, Infinity, false, this.currentTurn);
             if(score > bestScore){
                 bestScore = score;
                 bestMove = availablePositions[i];
@@ -161,7 +161,7 @@ export class Gamelogic {
         this.makeComputerMove(bestMove)
     }
 
-    minimax(minimaxGameField: any, depth: number, maxDepth: any, isMaxamizing: any, currentTurn: any): any{
+    minimax(minimaxGameField: any, depth: number, maxDepth: number, alpha: number, beta: number, isMaxamizing: any, currentTurn: any): any{
         let winner = this.checkForWinner(minimaxGameField, currentTurn)
         let draw = this.checkForDraw(minimaxGameField,winner)
         if(winner === 1){
@@ -182,11 +182,12 @@ export class Gamelogic {
             let availablePositions = this.findAvailablePositions(minimaxGameField);
             for (var i = 0; i < availablePositions.length; i++){
                 this.setClonedField(availablePositions[i],currentTurn,minimaxGameField)
-                let score = this.minimax(minimaxGameField, depth + 1, maxDepth, false, currentTurn);
-                if(score > bestScore){
-                    bestScore = score;
-                }
+                let score = this.minimax(minimaxGameField, depth + 1, maxDepth, alpha, beta, false, currentTurn);
+                bestScore = Math.max(score,bestScore)
+                alpha = Math.max(alpha, score)
                 this.setClonedField(availablePositions[i],0,minimaxGameField)
+                if (beta <= alpha){
+                    break}
             }
             return bestScore
         } else {
@@ -194,11 +195,12 @@ export class Gamelogic {
             let availablePositions = this.findAvailablePositions(minimaxGameField);
             for (var i = 0; i < availablePositions.length; i++){
                 this.setClonedField(availablePositions[i],currentTurn,minimaxGameField)
-                let score = this.minimax(minimaxGameField, depth + 1, maxDepth, true, currentTurn);
-                if(score < bestScore){
-                    bestScore = score;
-                }
+                let score = this.minimax(minimaxGameField, depth + 1, maxDepth, alpha, beta, true, currentTurn);
+                bestScore =  Math.min(score,bestScore);
+                beta = Math.min(beta, score)
                 this.setClonedField(availablePositions[i],0,minimaxGameField)
+                if (beta <= alpha){
+                    break}
             }
             return bestScore
         }
