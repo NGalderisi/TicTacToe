@@ -128,22 +128,7 @@ export class Gamelogic {
         return availablePositions
     }
 
-    easyComputer(): void{
-        var computerPosition = 0;
-        let holder = true;{
-            while (holder == true){
-                let availablePositions = this.findAvailablePositions(this.gameField);
-                var randomPosition = Math.floor(Math.random() * availablePositions.length);
-                computerPosition = availablePositions[randomPosition];
-                if(this.gameField[computerPosition] === 0){
-                    holder = false;
-                }
-            }
-        }
-        this.makeComputerMove(computerPosition)
-    }
-
-    impossibleComputer(): void{
+    Computer(maxDepth: any): void{
         let availablePositions = this.findAvailablePositions(this.gameField);
         let bestScore = -Infinity;
         let bestMove!: number;
@@ -153,7 +138,7 @@ export class Gamelogic {
         for (var i = 0; i < availablePositions.length; i++){
             var minimaxGameField  =  Object.assign([], this,this.gameField);
             this.setClonedField(availablePositions[i],this.currentTurn, minimaxGameField)
-            let score = this.minimax(minimaxGameField, 0, 3, -Infinity, Infinity, false, this.currentTurn);
+            let score = this.minimax(minimaxGameField, 0, maxDepth, -Infinity, Infinity, false, this.currentTurn);
             if(score > bestScore){
                 bestScore = score;
             }
@@ -218,15 +203,6 @@ export class Gamelogic {
             return bestScore
         }
         
-    }
-
-    normalComputer(): void{
-        var position = Math.floor(Math.random() * 2);
-        if(position === 0){
-            this.easyComputer();
-        }else if(position === 1){
-            this.impossibleComputer();
-        }
     }
         
     makeComputerMove(computerPosition:number): void {

@@ -61,13 +61,13 @@ export class GameComponent implements OnInit {
       }
 
       if (this.game.gameDifficulty === 1 && this.game.gameStatus === 1){
-        this.game.easyComputer();
+        this.game.Computer(2);
       }
       else if (this.game.gameDifficulty === 2 && this.game.gameStatus === 1){
-        this.game.normalComputer();
+        this.game.Computer(3);
       }
       else if (this.game.gameDifficulty === 3 && this.game.gameStatus === 1){
-        this.game.impossibleComputer();
+        this.game.Computer(7);
       }
     }
   }
