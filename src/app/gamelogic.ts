@@ -146,16 +146,29 @@ export class Gamelogic {
     impossibleComputer(): void{
         let availablePositions = this.findAvailablePositions(this.gameField);
         let bestScore = -Infinity;
-        let bestMove = availablePositions[0];
+        let bestMove!: number;
+        let scoreOneMoves: Array<number> = [];
+        let scoreZeroMoves: Array<number> = [];
+        let scoreNegativeOneMoves: Array<number> = [];
         for (var i = 0; i < availablePositions.length; i++){
             var minimaxGameField  =  Object.assign([], this,this.gameField);
             this.setClonedField(availablePositions[i],this.currentTurn, minimaxGameField)
-            let score = this.minimax(minimaxGameField, 0, 7, -Infinity, Infinity, false, this.currentTurn);
+            let score = this.minimax(minimaxGameField, 0, 3, -Infinity, Infinity, false, this.currentTurn);
             if(score > bestScore){
                 bestScore = score;
-                bestMove = availablePositions[i];
             }
+            if (score == 1){ scoreOneMoves.push(availablePositions[i])
+            } else if (score == 0){ scoreZeroMoves.push(availablePositions[i])
+            } else if (score == -1){ scoreNegativeOneMoves.push(availablePositions[i])}
+
             this.setClonedField(availablePositions[i],0, minimaxGameField)
+        }
+        if (scoreOneMoves.length != 0){
+            bestMove = scoreOneMoves[Math.floor(Math.random() * scoreOneMoves.length)];
+        } else if (scoreZeroMoves.length != 0){
+            bestMove = scoreZeroMoves[Math.floor(Math.random() * scoreZeroMoves.length)];
+        } else if (scoreNegativeOneMoves.length != 0){
+            bestMove = scoreNegativeOneMoves[Math.floor(Math.random() * scoreNegativeOneMoves.length)];
         }
         this.gameStatus = Status.START
         this.makeComputerMove(bestMove)
